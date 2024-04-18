@@ -15,47 +15,20 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-
-      - name: Check for existing release
-        id: check_release
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: releases } = await github.repos.listReleases({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-            const existingRelease = releases.find(release => release.tag_name === 'v1.0.0'); // Adjust tag name as needed
-            return existingRelease ? existingRelease.id : null;
-
       - name: Delete existing release
-        if: steps.check_release.outputs.release_id != null
-        uses: actions/github-script@v5
+        uses: liudonghua123/delete-release-action@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            await github.repos.deleteRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: ${{ steps.check_release.outputs.release_id }},
-            });
-
-      - name: Create new Release
+          release_name: 'Release 1.0.0'
+      - name: Create Release
         id: create_release
-        uses: actions/github-script@v5
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: release } = await github.repos.createRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: 'v1.0.0', // Adjust tag name as needed
-              name: 'Release 1.0.0', // Adjust release name as needed
-              draft: false,
-              prerelease: false,
-            });
-            core.setOutput('release_id', release.id);
+          tag_name: v1.0.0 # You can use any tag name you prefer
+          release_name: Release 1.0.0 # Name of the release
+          draft: false
+          prerelease: false
 
       - name: Upload PDF file
         id: upload-release-asset
