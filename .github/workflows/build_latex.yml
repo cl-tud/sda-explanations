@@ -16,9 +16,11 @@ jobs:
         with:
           root_file: main.tex
       - name: Delete existing release
-        uses: liudonghua123/delete-release-action@v1
+        uses: dev-drprasad/delete-tag-and-release@v1.1
         with:
-          release_name: 'Release 1.0.0'
+          tag_name: v1.0.0 #(required) - The name of the tag to delete. This is expected to be solely the tag name, not the name of a git reference.
+          delete_release: true #(optional) default: true - also delete all releases and their assets that are associated to the tag name
+          github_token: ${{ secrets.GITHUB_TOKEN }} # (required) - a GitHub token with write access to the repo where tags and releases will be searched and deleted           # repo: cl-tud/sda-explanations #(optional) default: repo running this action - the target repository. 
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
