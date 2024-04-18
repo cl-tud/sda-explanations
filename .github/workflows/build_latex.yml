@@ -29,33 +29,33 @@ jobs:
             const existingRelease = releases.find(release => release.tag_name === 'v1.0.0'); // Adjust tag name as needed
             return existingRelease ? existingRelease.id : null;
 
-      - name: Create or update Release
-        id: create_or_update_release
+      - name: Delete existing release
+        if: steps.check_release.outputs.release_id != null
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            if (context.payload.release_id) {
-              await github.repos.updateRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                release_id: context.payload.release_id,
-                tag_name: 'v1.0.0', // Adjust tag name as needed
-                name: 'Release 1.0.0', // Adjust release name as needed
-                draft: false,
-                prerelease: false,
-              });
-            } else {
-              const { data: release } = await github.repos.createRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: 'v1.0.0', // Adjust tag name as needed
-                name: 'Release 1.0.0', // Adjust release name as needed
-                draft: false,
-                prerelease: false,
-              });
-              core.setOutput('release_id', release.id);
-            }
+            await github.repos.deleteRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ steps.check_release.outputs.release_id }},
+            });
+
+      - name: Create new Release
+        id: create_release
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: release } = await github.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: 'v1.0.0', // Adjust tag name as needed
+              name: 'Release 1.0.0', // Adjust release name as needed
+              draft: false,
+              prerelease: false,
+            });
+            core.setOutput('release_id', release.id);
 
       - name: Upload PDF file
         id: upload-release-asset
@@ -63,7 +63,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_or_update_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: main.pdf
           asset_name: main.pdf
           asset_content_type: application/pdf
