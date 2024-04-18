@@ -1,0 +1,15 @@
+\emph{Insulin infusion pumps}
+%a paradigmatic example for assurance cases in risk management~\cite{FDA14}\todo{MD\&HS@MD: add further citations}, 
+aid in regulating blood glucose levels, especially of patients with diabetes, by administering fast-acting insulin via a catheter inserted beneath the skin. Based on the risk assessment for a generic infusion pump by Zhang et al.~\cite{zhangJJ10,zhangJJR11}, \Cref{fig:rmf} shows %data about 
+a controlled risk and associated SDA that can be extracted from a risk management file that follows \vdespec.%
+
+Following~Zhang et al.~\cite[entry 4.3.9 in Table 4 in the appendix]{zhangJJ10}, the risk stems from a ``non-audio alarm malfunction'' hazard (with associated id \ind{hz} in the figure).
+Specifically, the vibration mechanism of the non-audio alarm integrated into the pump may fail (event \indid{ev}{1}).
+Then, the patient may not become aware of an issue (event \indid{ev}{2}), which can lead to the patient receiving less insulin (hazardous situation \ind{hs}) and the patient losing consciousness (harm \ind{hr}).
+Apart from the information for the domain specific hazard \indb{dsh} required by VDE Spec (dashed boxes in the figure exemplarily group related elements), the \riskman ontology also allows to refer to terminology for medical device problems put forward by the International Medical Device Regulators Forum (IMDRF)~\cite{IMDRF20AET} (field with id \ind{dp}).
+The SDA (\indid{sd}{0}, based on the work of Zhang et al.~\cite[Table 3]{zhangJJR11}) consists of three sub-SDAs and expresses that there are alternative means of alerting the patient.
+The first sub-SDA \indidb{sd}{1} specifically expresses that the alarm condition is also indicated through visual signals.
+Moreover, the second sub-SDA \indidb{sd}{2} indicates that this notification is recurring.
+The third SDA \indidb{sd}{3} expresses that there is also an additional audio alarm that will start unless the patient acknowledges the vibration or blinking.
+Moreover, according to sub-SDA \indidb{sd}{5} the audible signal is in accordance with regulations, here the assurance is IEC 60601 \indb{sa}. Thus, sub-SDA \indidb{sd}{5} is the only assurance SDA (indicated by the pink colour); all other SDAs are risk SDAs (purple).
+On the other hand, as required by VDE Spec, each leaf SDA is an SDAI, with the associated implementation manifests (\indid{im}{1},\indid{im}{2},\indid{im}{4},\indid{im}{5}) pointing to implementation details and documentation.

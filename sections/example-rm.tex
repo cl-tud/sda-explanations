@@ -1,0 +1,80 @@
+\begin{figure}[]
+    \centering
+    \resizebox{1\textwidth}{!}{
+        \begin{tikzpicture}
+            \tikzset {
+                basic node/.style={
+                        draw,
+                        % text width=1cm,
+                        font=\scriptsize,
+                        align=center,
+                        rounded corners,
+                        minimum width=1.1cm,
+                        fill=yellow!20
+                    }}
+
+            % DSH    
+            \node[basic node, minimum width=4cm] (dcomponent) at (0,0) {\textbf{Device component:}\\Non-audio alarm \indb{dcm}};
+            \node[basic node, minimum width=4cm] (dfunction) at (0,-1) {\textbf{Device function:}\\Alarm \indb{df}};
+            \node[basic node, minimum width=4cm] (dfunction) at (0,-2) {\textbf{Device problem:} Defective\\Alarm (IMDRF A160106) \indb{dp}};
+            \node[basic node, minimum width=4cm] (hazard) at (0,-3) {\textbf{Hazard:} Non-audio \\alarm malfunction \indb{hz}};
+
+            % 
+            \node[basic node, minimum width=3cm] (dcontext) at (4,0) {\textbf{Device context:}\\Normal use \indb{dcx}};
+            \node[basic node, minimum width=3cm] (harm) at (4,-1) {\textbf{Harm:} Loss of\\consciousness \indb{hr}};
+            \node[basic node, minimum width=3cm] (event) at (4,-2.25) {\textbf{Event:}\\Vibration mechanism\\fails \indidb{ev}{1} $\rightarrow$ Vibration\\cannot be felt \indidb{ev}{2}};
+            \node[basic node, minimum width=3cm] (hazsit) at (4,-3.5) {\textbf{Hazardous situation:}\\Underdose \indb{hs}};
+
+            % IRL
+            \node[basic node] (sev) at (6.5,0) {\textbf{Sev:}\\IV \indidb{s}{4}};
+            \node[basic node] (prob1) at (6.5,-1) {\textbf{Prob 1:}\\V\indidb{p}{5}};
+            \node[basic node] (prob2) at (6.5,-2) {\textbf{Prob 2:}\\IV\indidb{p}{4}};
+
+            % IRL
+            \node[basic node] (rsev) at (8.35,0) {\textbf{Sev:}\\IV\indidb{s}{4}};
+            \node[basic node] (rprob) at (8.35,-1) {\textbf{Prob:}\\III\indidb{p}{3}};
+
+            \node[basic node, fill=blue!10] (sda0) at (8.35,-3) {\textbf{SDA:}\\\indidb{sd}{0}};
+
+            % DSH
+            \node[draw,myborder,fit=(dcomponent)(dfunction)(hazard),inner sep=5pt,label={[font=\scriptsize]south:\textit{Domain Specific Hazard}~\indb{dsh}}] {};
+            % IRL
+            \node[draw,myborder,fit=(sev)(prob1)(prob2),inner sep=5pt,label={[font=\scriptsize, text width=1.5cm, align=center]south:\textit{Initial Risk Level}~\indb{irl}}] {};
+            % RRL
+            \node[draw,myborder,fit=(rsev)(rprob),inner sep=5pt,label={[font=\scriptsize, text width=1.5cm, align=center]south:\textit{Residual Risk Level}~\indb{rrl}}] {};
+            % ARisk
+            \node[draw,myborder,fit=(dcomponent)(hazard)(prob2),inner xsep=10pt, inner ysep=15pt, yshift=-5pt, label={[font=\scriptsize]south:\textit{Analysed Risk}~\indb{ar}}] {};
+            % CRisk
+            \node[draw,myborder,fit=(dcomponent)(sda0),inner xsep=15pt, inner ysep=24pt, yshift=-8pt, label={[font=\scriptsize]south:\textit{Controlled Risk}~\indb{cr}}] {};
+        \end{tikzpicture}}%
+    \\\resizebox{1\textwidth}{!}{
+        \begin{forest}
+            forked edges,
+            for tree={align=center,base=bottom,draw,font=\scriptsize,edge={->},rounded corners,scale=0.9},
+            im/.style={fill=green!10},
+            sa/.style={fill=purple!15},
+            sda/.style={fill=blue!10},
+            asda/.style={fill=brown!15},
+            [\textbf{SDA}:\\Alternative alerting when vibration mechanism of non-audio alarm fails~\indidb{sd}{0}, sda,
+            [\textbf{SDA}:Additional\\visual (blinking)\\signal \indidb{sd}{1},sda,name=sda1
+            [\textbf{IM}: Sec. 10.3 \\ of Alarm\\report \indidb{im}{1},im,name=im1]],
+            [\textbf{SDA}: Notification\\ recurs every\\ $X$ minutes \indidb{sd}{2},sda,name=sda2
+            [{\textbf{IM}: $X\eqdef 0.5$, \\ Sec. 10.7 \\ of Alarm\\report \indidb{im}{2}},im]],
+            [\textbf{SDA}: Additio-\\nal audio\\alarm \indidb{sd}{3},sda,name=asda3
+            [\textbf{SDA}: Audio\\signal if vibration\\signal not\\acknowledged \indidb{sd}{4},sda,name=asda4
+            [\textbf{IM}: Sec. \\ 10.11  of Alarm\\report \indidb{im}{4},im]],
+            [\textbf{SDA}:\\Audible signal is\\at least X db \\ at Y m  \indidb{sd}{5},asda,name=asda5
+            [{\textbf{IM}:  $X\eqdef 45$, \\ $Y\eqdef 1$ ,  Sec. 5.3 \\ of  Loudspeaker \\ test \indidb{im}{5}},im,name=im5]],
+            [\textbf{SA}: IEC\\60601 \indb{sa}, no edge, sa,name=sa5,yshift=6pt]
+            ],
+            ]
+            \draw[->] (asda5) to (sa5);
+            \node[draw,myborder,fit=(sda1)(im1),label={[font=\scriptsize]south:\textit{SDAI}}] {};
+            \node[draw,myborder,fit=(asda5)(sa5),label={[font=\scriptsize, text width=1.8cm, xshift=25pt, align=right]south:\textit{Assurance SDA}}] {};
+            \node[draw,myborder,fit=(asda5)(sa5)(im5),inner sep=5pt,label={[font=\scriptsize]south:\textit{Assurance SDAI}}] {};
+        \end{forest}
+    }
+    \caption{Graphical representation of the data of a controlled risk (top figure) and associated SDA (bottom figure) provided within a risk management file for an infusion pump. The dashed indicate  examples of composite classes, e.g. \indidb{sd}{1} and \indidb{im}{1} together constitute an SDAI. Note that these are just single examples of SDAIs, as any pair of an SDA and its related Implementation Manifest jointly realize an SDAI, e.g. the pair \indidb{sd}{2} + \indidb{im}{2} or \indidb{sd}{4} + \indidb{im}{4}. 
+    }
+    \label{fig:rmf}
+\end{figure}

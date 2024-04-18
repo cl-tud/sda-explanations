@@ -1,0 +1,69 @@
+\documentclass[runningheads]{llncs}
+
+
+
+% All the packages etc.
+\usepackage{xspace}
+\usepackage{todonotes}
+\usepackage{amsmath}
+\usepackage{cleveref}
+
+
+\usepackage[edges]{forest}
+
+\usepackage{tikz}
+\usepackage{tikzscale}
+\usetikzlibrary{positioning, shapes.multipart, arrows.meta, backgrounds, fit, quotes}
+\tikzstyle{myborder}=[densely dashed]
+
+
+
+\include{macros/general}
+
+% Springer-style cref
+\crefname{section}{Sect.}{Sect.}
+\Crefname{section}{Sect.}{Sect.}
+\crefname{figure}{Fig.}{Fig.}
+\Crefname{figure}{Fig.}{Fig.}
+
+
+\title{Safe Design Arguments (SDAs) -- tips ane examples}
+
+\author{%
+      Piotr Gorczyca\inst{1}\orcidID{0000-0002-6613-6061} \and
+      Dörthe Arndt\inst{1}\orcidID{0000-0002-7401-8487} \and
+      Martin Diller\inst{2}\orcidID{0000-0001-6342-0756} \and
+      Pascal Kettmann\inst{1}\orcidID{0009-0009-9461-7952} \and
+      Stephan Mennicke\inst{3}\orcidID{0000-0002-3293-2940} \and
+      Hannes~Strass\inst{1}\orcidID{0000-0001-6180-6452}
+}
+%
+\authorrunning{P.~Gorczyca et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+\institute{%
+      Computational Logic Group, Institute of Artificial Intelligence \and
+      Logic Programming and Argumentation Group, Institute of Artificial Intelligence \and
+      Knowledge-Based Systems Group, Institute for Theoretical Computer Science\\
+      \inst{1,2,3}~Faculty of Computer Science, TU Dresden, Germany\\
+      \email{\ttfamily firstname.lastname@tu-dresden.de}
+}
+
+\begin{document}
+
+\maketitle
+
+\section{SDAs}
+\input{sections/sda}
+
+\section{Insulin infusion pump example}
+\input{sections/example-description}
+\input{sections/example-rm}
+
+\bibliographystyle{splncs04}
+\bibliography{bib/references}
+
+\end{document}
+
+

@@ -1,0 +1,43 @@
+
+
+The central notion of the \riskman ontology \& shapes is that of a \emph{Safe Design Argument} (SDA), which is a building block of the so-called SDA trees. SDA trees can be seen as simplifications of \emph{Assurance Cases} (ACs)~\cite{WeinstockG09}, in that they also represent structures of measures mitigating certain risk, but the AC notions (such as e.g. \emph{claim}, \emph{strategy}, \emph{evidence} or \emph{instantiation}) are by design built into the SDAs. SDAs by being uniform building blocks help to avoid the complexity of modelling risk mitigation strategies using AC approach.
+
+SDAs allow to conceal concrete and potentially manufacturer-sensitive data by capturing only the abstract idea of risk mitigation. That enables their transparency and reusability: these abstract ideas are expected to reside in an open source repository from which they could be pulled by manufacturers whenever needed. Popular SDA would gain credability through frequent implementation (and hence certification) which would in turn hopefully lead to a so-called \emph{safety competition}: a state in which SDAs addressing the same risk are competing to be recognized as the safest.
+
+For a concrete risk management file submission an abstract idea is not enough: it is necessary to provide the details of implementation of the SDA within the device as well as the evidence of the implementation. This requirement is realized by means of an \emph{Implementation Manifest}, which is a piece of information supplied to an SDA containing the aforementioned information. An SDA containing an Implementation Manifest is called a \emph{Safe Design Argument Implementation} (SDAI).
+
+SDA (SDAI) is the base, abstract superclass of \emph{Risk SDA} (\emph{Risk SDAI}) and \emph{Assurance SDA} (\emph{Assurance SDAI}), the two SDA subclasses to be used in practice. Whenever given SDA is referring to some state of the art \emph{Safety Assurance} -- e.g. a section of a norm or standard mentioning a particular way of handling a risk, we speak about the latter -- Assurance SDA(I). Otherwise, in the case of the absence of the Safety Assurance, we are dealing with Risk SDA(I).
+
+As an example, consider a scenario in which a risk of electrocution appears and, as prevention, the manufacturer decides to use electrical insulation. The concrete value of distance through insulation has been decided to be 0.5mm.
+The structure of a corresponding Risk SDA is depicted below:
+
+  \[
+    \underbrace{
+      \overbrace{\text{ Electrical insulation }}^{\textit{ Risk SDA }}
+      |
+      \overbrace{\text{ dist=0.5mm }}^{\textit{Impl. manifest}}
+    }_\textit{Risk SDAI}
+  \]
+
+On the other hand, assume that the manufacturer is aware that in their scenario (under adequate assumptions), a mitigation specified in IEC 60601-1~\footnote{IEC 60601 is a series of technical standards published by the International Electrotechnical Commission, addressing safety aspect of medical electronical devices.} is applicable, which further specifies the insulation distance to be at least 0.4mm. In this case the manufacturer could refer to the respective clause of IEC 60601-1 (clause 8.8.2) as the Safety Assurance of the related SDA. The structure of such Assurance SDA is shown below:
+\[
+\underbrace{
+    \overbrace{\text{ Electrical insulation }
+    |
+    \overbrace{\text{ IEC 60601-1, s 8.8: min. dist.}>0.4\text{mm}}^{\textit{Safety Assurance}}}^{\textit{Assurance SDA}}
+    |
+    \overbrace{\text{dist=0.5mm }}^{\textit{Impl. Manifest}}
+}_\textit{Assurance  SDAI}
+\]
+
+
+The above example illustrates the difference between Risk- and Assurance SDA(I)s. An additional reference to a state-of-the-art measure in a form of a Safety Assurance can help in establishing SDAs credability and traceability in case of an unforeseen event.
+
+The hierarchical relation between an SDAs similar to that known from AC, in that the children SDAs jointly realize the goal/claim of its parent.  
+The \riskman approach additionally imposes the two following constraints on the structure of SDA trees: 
+\begin{enumerate}
+  \item all children nodes of Assurance SDA(I)s must again be Assurance SDA(I)s,
+  \item all leaf nodes must have an Implementation Manifest (effectively, must be SDAIs).
+\end{enumerate}
+
+\noindent~Non-leaf nodes may have Implementation Manifests, but it is not strictly required. 
