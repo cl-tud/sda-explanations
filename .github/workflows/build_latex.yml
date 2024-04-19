@@ -28,7 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v1.0.0 # You can use any tag name you prefer
-          release_name: latest-version # Name of the release
+          release_name: Version 1.0.0 # Name of the release
           draft: false
           prerelease: false
 
