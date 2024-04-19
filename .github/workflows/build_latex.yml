@@ -21,6 +21,9 @@ jobs:
           tag_name: v1.0.0 #(required) - The name of the tag to delete. This is expected to be solely the tag name, not the name of a git reference.
           delete_release: true #(optional) default: true - also delete all releases and their assets that are associated to the tag name
           github_token: ${{ secrets.GITHUB_TOKEN }} # (required) - a GitHub token with write access to the repo where tags and releases will be searched and deleted           # repo: cl-tud/sda-explanations #(optional) default: repo running this action - the target repository. 
+      - name: Get current date
+        id: current_date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -30,8 +33,8 @@ jobs:
           tag_name: v1.0.0 # You can use any tag name you prefer
           release_name: Version 1.0.0 # Name of the release
           draft: false
-          prerelease: false
-
+          prerelease: false,
+          body: "Status as of: ${{ steps.current_date.outputs.date }}"
       - name: Upload PDF file
         id: upload-release-asset
         uses: actions/upload-release-asset@v1

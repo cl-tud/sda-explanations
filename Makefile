@@ -1,7 +1,7 @@
 BIB = bib/references.bib
-DEPENDENCIES = main.tex sections/*.tex macros/*.tex ${BIB}
+DEPENDENCIES = sda.tex sections/*.tex macros/*.tex ${BIB}
 CONF = iswc2024
-SHORT = main
+SHORT = sda
 LONG = supplementary
 ID = 141 # change after paper registration
 
