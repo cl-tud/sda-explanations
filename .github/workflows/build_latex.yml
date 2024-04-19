@@ -14,7 +14,7 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: main.tex
+          root_file: sda.tex
       - name: Delete existing release
         uses: dev-drprasad/delete-tag-and-release@v1.1
         with:
@@ -39,6 +39,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: main.pdf
-          asset_name: main.pdf
+          asset_path: sda.pdf
+          asset_name: sda.pdf
           asset_content_type: application/pdf
